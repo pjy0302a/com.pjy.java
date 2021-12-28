@@ -56,11 +56,12 @@ public class Quiz {
 		int a = 10;
 		int b = -8;
 		
-		if (a<0 || b<0) {
-			System.out.println("One of a or b is negative number");
-		} else {
-			System.out.println("both a and b are zero or more");
-		}
+		String result1 = (a < 0 || b < 0 ) ? "both a and b are zero or more" : "One of a or b is negative number";
+		System.out.println(result1);
+		/*
+		 * if (a<0 || b<0) { System.out.println("One of a or b is negative number"); }
+		 * else { System.out.println("both a and b are zero or more"); }
+		 */
 		
 	}
 
