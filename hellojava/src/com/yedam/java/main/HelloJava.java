@@ -7,7 +7,6 @@ public class HelloJava {
 		System.out.println("Welcome to JAVA!");
 		System.out.println("2021-12-24");
 		System.out.println("Park");
-		
 	}
 
 }
