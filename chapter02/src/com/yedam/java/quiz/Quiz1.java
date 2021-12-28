@@ -12,8 +12,6 @@ public class Quiz1 {
 		c = temp1; //90
 		System.out.println("a:" + a + ",b:" + b + ",c:" + c );
 
-		
-
 	}
 
 }
