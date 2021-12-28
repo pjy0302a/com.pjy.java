@@ -1,0 +1,44 @@
+package com.yedam.java.ch0201;
+
+public class VariableExample {
+//자주색 = 예약어
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//변수 선언 -> 타입 변수이름
+		int age;
+		double value;
+		
+		//변수 초기화 -> 실질적인 메모리 할당이 이루어짐
+		age = 20; 
+		//age 대입연산자 왼쪽에 있는값을 오른쪽에 있는값으로 대입시킴
+//		int result = age + (int)value;
+		
+		//변수 사용
+		int hour = 3;
+		int minute = 5;
+		System.out.println(hour + "시간" + minute + "분");
+		
+		int totalminute = (hour*60) + minute;
+		System.out.println("총" + totalminute + "분");
+		
+		//변수 복사
+		int x = 3;
+		int y = 5;
+		System.out.println("x: "+ x + ", y: " +y);
+		
+		int temp = x;
+		x = y;
+		y = temp;
+		System.out.println("x: "+ x + ", y: " +y);
+		
+		//변수의 사용범위
+		int v1 = 15;
+		if(v1 > 10) {
+			int v2;
+			v2 = v1 - 10;
+		}
+//		int v3 = v1 + v2 + 5;
+	}
+	
+
+}
