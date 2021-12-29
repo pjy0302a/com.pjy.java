@@ -56,7 +56,7 @@ public class Quiz {
 		int a = 10;
 		int b = -8;
 		
-		String result1 = (a < 0 || b < 0 ) ? "both a and b are zero or more" : "One of a or b is negative number";
+		String result1 = (a < 0 || b < 0 ) ? "One of a or b is negative number" : "both a and b are zero or more";
 		System.out.println(result1);
 		/*
 		 * if (a<0 || b<0) { System.out.println("One of a or b is negative number"); }
