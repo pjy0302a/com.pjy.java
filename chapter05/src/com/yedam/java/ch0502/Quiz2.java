@@ -19,6 +19,7 @@ public class Quiz2 {
 			int number = 0;
 			int max = 0;
 			int sum = 0;
+			int a = 0 ;
 			if(input == 5) {
 				System.out.println("종료되었습니다.");
 				run = false;
@@ -44,27 +45,47 @@ public class Quiz2 {
 //				}
 					break;
 				case 2:
-					for (int i = 0; i < score.length; i++) {
-						System.out.println("scores" + "[" + i + "]>");
+//					for (int i = 0; i < score.length; i++) {
+//						System.out.println("scores" + "[" + i + "]>");
+//						number = Integer.parseInt(scan.nextLine());
+//						score[i] = number;
+//					}
+					for(int num : score) {
+						System.out.println("scores" + "[" + a + "]>");
 						number = Integer.parseInt(scan.nextLine());
-						score[i] = number;
+						score[a] = number;
+						a++;
+//					
 //						System.out.println(score[i]);
 					}
 					break;
 				case 3:
-					for (int i = 0; i < score.length; i++) {
-						System.out.println("score"+"["+i+"] : "+score[i]);
+//					for (int i = 0; i < score.length; i++) {
+//						System.out.println("score"+"["+i+"] : "+score[i]);
+//					}
+					for (int num : score) {
+						System.out.println("score"+"["+a+"] : "+score[a]);
+						a++;
 					}
 					break;
 				case 4:
-					for (int i = 0; i < score.length; i++) {
-						sum += score[i];
-					}
-					for (int i = 0; i < score.length; i++) {
-						if (max < score[i]) {
-							max = score[i];
+//					for (int i = 0; i < score.length; i++) {
+//						sum += score[i];
+//					}
+//					for (int i = 0; i < score.length; i++) {
+//					if (max < score[i]) {
+//						max = score[i];
+//					}
+//				}
+					for (int num : score) {
+						if (max < score[a]) {
+							max = score[a];
 						}
+						sum += score[a];
+						a++;
 					}
+
+
 					System.out.println("최고 점수 : " + max);
 					float avg = (float)sum / score.length;
 					System.out.println("평균 점수 : " + avg);
