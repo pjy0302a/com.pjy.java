@@ -38,4 +38,11 @@ public class Calculator {
 		double result = avg(7,10);
 		println("실행결과 : " + result);
 	}
+	double areaRectangle(double width) {
+		return width * width;
+	}
+	
+	double areaRectangle(double width, double height) {
+		return width * height;
+	}
 }

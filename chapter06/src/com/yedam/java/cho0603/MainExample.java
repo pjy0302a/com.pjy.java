@@ -53,6 +53,15 @@ public class MainExample {
 		//클래스 내부에서 메소드 호출
 		Calculator myCalc1 = new Calculator();
 		myCalc.execute();
+		
+		System.out.println();
+		//메서드 오버로딩
+		Calculator myCalcu = new Calculator();
+		double dbResult1 = myCalc.areaRectangle(10);
+		double dbResult2 = myCalc.areaRectangle(10,20);
+		
+		System.out.println("정사각형의 넓이 : " + dbResult1);
+		System.out.println("정사각형의 넓이 : " + dbResult2);
 	}
 
 }
