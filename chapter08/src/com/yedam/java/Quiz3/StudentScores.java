@@ -6,8 +6,7 @@ public class StudentScores {
 	private int korean;
 	private int english;
 	private int math;
-	private int total;
-	private double avg;
+
 	public StudentScores(String name, int myClass) {
 		this.name = name;
 		this.myClass = myClass;
@@ -55,15 +54,15 @@ public class StudentScores {
 
 	public int getTotal() {
 		
-		total = korean + english + math;
-		return total;
+//		total = korean + english + math;
+		return korean + english + math;
 	}
 	
 	
 	public double getAverage() {
 		
-		avg = total/3.0;
-		return avg;
+
+		return getTotal()/3;
 	}
 	
 	
