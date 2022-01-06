@@ -16,7 +16,7 @@ public class Person {
 			money -= 4500;
 			beanCafe.buyCoffee(4500);
 		}else {
-			beanCafe.buyCoffee(0);
+			System.out.println("돈이 " + (money - 4000) +" 원 부족합니다" );
 		}
 	}
 
@@ -26,7 +26,7 @@ public class Person {
 			
 			starCafe.buyCoffee(4000);
 		}else {
-			starCafe.buyCoffee(0);
+			System.out.println("돈이 " + (money - 4000) +" 원 부족합니다" );
 		}
 	}
 

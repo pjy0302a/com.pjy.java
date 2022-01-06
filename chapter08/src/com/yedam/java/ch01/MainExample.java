@@ -8,6 +8,7 @@ public class MainExample {
 		rc1.turnOn();
 		rc1 = new Audio();
 		rc1.turnOn();
+		rc1.setVolume(12);
 		
 		SmartTelevision tv = new SmartTelevision();
 		RemoteControl rc = tv;
