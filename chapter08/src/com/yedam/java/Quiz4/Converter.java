@@ -3,10 +3,15 @@ package com.yedam.java.Quiz4;
 import java.util.Scanner;
 
 public abstract class Converter {
+	protected double ratio;
+	
 	abstract protected double convert(double src);
 	abstract protected String getSrcString();
 	abstract protected String getDestString();
-	protected double ratio;
+	
+//	protected Converter(double ratio) {
+//		this.ratio = ratio;
+//	}
 	
 	public void run() {
 		Scanner scan = new Scanner(System.in);

@@ -1,14 +1,14 @@
 package com.yedam.java.Quiz4;
 
 public class Won2Dollar extends Converter{
-
+	
 	public Won2Dollar(double ratio) {
 		super.ratio = ratio;
 	}
 	@Override
 	protected double convert(double src) {
 	
-		return src / this.ratio ;
+		return src / ratio ;
 	}
 
 	@Override
