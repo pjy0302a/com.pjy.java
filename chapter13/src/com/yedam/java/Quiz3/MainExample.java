@@ -20,34 +20,119 @@ public class MainExample {
 		boolean run = true;
 		Scanner scan = new Scanner(System.in);
 		List<Book> list = new ArrayList<Book>();
+		String borrow = null;
 		
 		while (run) {
 			System.out.println("1.책정보 입력 | 2. 전체조회 | 3.단건조회 | 4.책 대여 | 5.책 반납 | 6.종료 ");
 			int input = scan.nextInt();
+
 			switch (input) {
+
 			case 1:
-				System.out.print("입력되는 책정보는 책이름,저자명");
-				String name = scan.nextLine();
-				String author = scan.nextLine();
+
+				System.out.print("책이름 : ");
+				String name = scan.next();
+				System.out.print("저자 : ");
+				String author = scan.next();
+
+				list.add(new Book(name, author));
 				break;
 			case 2:
-
+				
+				for (Book book : list) {
+					if(book.isTf()==true) {
+						borrow="대여가능";
+					}
+					else if(book.isTf()==false) {
+						borrow="대여불가";
+					}
+					System.out.println(book.getBooknum() + ") " + book.getName() + " " + book.getAuthor() + " "
+							+ borrow);
+							//+ book.borrow(book.isTf()));
+				}
 				break;
 			case 3:
-
+				System.out.print("책이름 : ");
+				String name1 = scan.next();
+				
+				for (Book book : list) {
+					if(book.isTf()==true) {
+						borrow="대여가능";
+					}
+					else if(book.isTf()==false) {
+						borrow="대여불가";
+					}
+					
+					if (book.getName().equals(name1)) {
+						System.out.println(book.getBooknum() + ") " + book.getName() + " " + book.getAuthor() + " "
+								+ borrow);
+//						+ book.borrow(book.isTf()));
+					}
+				}
 				break;
 			case 4:
+				System.out.print("책이름 : ");
+				String name2 = scan.next();
 
+				for (Book book : list) {
+
+					
+					if (book.getName().equals(name2) && book.isTf() == true) {
+						borrow="정상대여";
+						System.out.println(borrow);
+//					System.out.println(book.getBooknum()+") "+book.getName()+" "+book.getAuthor()+" "+book.borrow(book.isTf()));
+//						System.out.println(book.borrow1(book.isTf()));
+						book.setTf(false);
+//						System.out.println(book.getBooknum() + ") " + book.getName() + " " + book.getAuthor() + " "
+//								+ book.borrow(book.isTf()));
+					}
+
+					else if (book.getName().equals(name2) && book.isTf() == false) {
+						borrow="대여 중";
+						System.out.println(borrow);
+//						System.out.println(book.borrow1(book.isTf()));
+					}
+				}
 				break;
 			case 5:
+				System.out.print("책이름 : ");
+				String name3 = scan.next();
 
+				for (Book book : list) {
+					if (book.getName().equals(name3) && book.isTf() == false) {
+						borrow="반납완료";
+						System.out.println(borrow);
+//						System.out.println(book.isTf());
+						
+//						System.out.println(book.borrow2(book.isTf()));
+						book.setTf(true);
+						
+//						System.out.println(book.getBooknum() + ") " + book.getName() + " " + book.getAuthor() + " "
+//								+ book.borrow(book.isTf()));
+					}
+					else if (book.getName().equals(name3) && book.isTf() == true) {
+						borrow="반납불가";
+						System.out.println(borrow);
+//						System.out.println(book.borrow2(book.isTf()));
+					
+					}
+//					else if (book.getName().equals(name3) && book.isTf() == true) {
+//						System.out.println(book.borrow2(book.isTf()));
+//
+//					}
+				}
 				break;
 			case 6:
+				System.out.println("종료되었습니다.");
 				run = false;
 				break;
 
 			}
 		}
+	}
+
+	private static boolean isTf() {
+		return false;
 	}
 
 }
