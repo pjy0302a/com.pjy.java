@@ -66,7 +66,6 @@ public class MainExample {
 					if (book.getName().equals(name1)) {
 						System.out.println(book.getBooknum() + ") " + book.getName() + " " + book.getAuthor() + " "
 								+ borrow);
-//						+ book.borrow(book.isTf()));
 					}
 				}
 				break;
@@ -80,17 +79,14 @@ public class MainExample {
 					if (book.getName().equals(name2) && book.isTf() == true) {
 						borrow="정상대여";
 						System.out.println(borrow);
-//					System.out.println(book.getBooknum()+") "+book.getName()+" "+book.getAuthor()+" "+book.borrow(book.isTf()));
-//						System.out.println(book.borrow1(book.isTf()));
 						book.setTf(false);
-//						System.out.println(book.getBooknum() + ") " + book.getName() + " " + book.getAuthor() + " "
-//								+ book.borrow(book.isTf()));
+
 					}
 
 					else if (book.getName().equals(name2) && book.isTf() == false) {
 						borrow="대여 중";
 						System.out.println(borrow);
-//						System.out.println(book.borrow1(book.isTf()));
+						
 					}
 				}
 				break;
@@ -102,24 +98,15 @@ public class MainExample {
 					if (book.getName().equals(name3) && book.isTf() == false) {
 						borrow="반납완료";
 						System.out.println(borrow);
-//						System.out.println(book.isTf());
-						
-//						System.out.println(book.borrow2(book.isTf()));
 						book.setTf(true);
 						
-//						System.out.println(book.getBooknum() + ") " + book.getName() + " " + book.getAuthor() + " "
-//								+ book.borrow(book.isTf()));
 					}
 					else if (book.getName().equals(name3) && book.isTf() == true) {
 						borrow="반납불가";
 						System.out.println(borrow);
-//						System.out.println(book.borrow2(book.isTf()));
 					
 					}
-//					else if (book.getName().equals(name3) && book.isTf() == true) {
-//						System.out.println(book.borrow2(book.isTf()));
-//
-//					}
+
 				}
 				break;
 			case 6:
