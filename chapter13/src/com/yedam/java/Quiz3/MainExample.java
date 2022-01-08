@@ -118,8 +118,6 @@ public class MainExample {
 		}
 	}
 
-	private static boolean isTf() {
-		return false;
-	}
+	
 
 }
