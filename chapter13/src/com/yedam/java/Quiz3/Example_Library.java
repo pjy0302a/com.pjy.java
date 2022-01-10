@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MainExample {
+public class Example_Library {
 
 	public static void main(String[] args) {
 		// 문제) 다음은 도서관리프로그램 중 일부입니다.
@@ -19,10 +19,10 @@ public class MainExample {
 		// 6) 종료시 "프로그램 종료"를 출력하도록 하세요.
 		boolean run = true;
 		Scanner scan = new Scanner(System.in);
-		List<Book> list = new ArrayList<Book>();
-		String borrow = null;
+		Library library = new Library();
+
 		String name = null;
-		
+
 		while (run) {
 			System.out.println("1.책정보 입력 | 2. 전체조회 | 3.단건조회 | 4.책 대여 | 5.책 반납 | 6.종료 ");
 			int input = scan.nextInt();
@@ -35,81 +35,31 @@ public class MainExample {
 				name = scan.next();
 				System.out.print("저자 : ");
 				String author = scan.next();
-				list.add(new Book(name, author));
+				library.addBook(name, author);
 				break;
 			case 2:
-				
-				for (Book book : list) {
-					if(book.isTf()==false) {
-						borrow="대여가능";
-					}
-					else if(book.isTf()==true) {
-						borrow="대여불가";
-					}
-					System.out.println(book.getBooknum() + ") " + book.getName() + " " + book.getAuthor() + " "
-							+ borrow );							
-//							+ (book.isTf() ? "대여중" : "대여가능"));
-//							삼항연산자
-							
-				}
+
+				library.printBookList();
+
 				break;
 			case 3:
 				System.out.print("책이름 : ");
-				 name = scan.next();
-				
-				for (Book book : list) {
-					if(book.isTf()==false) {
-						borrow="대여가능";
-					}
-					else if(book.isTf()==true) {
-						borrow="대여불가";
-					}
-					
-					if (book.getName().equals(name)) {
-						System.out.println(book.getBooknum() + ") " + book.getName() + " " + book.getAuthor() + " "
-								+ borrow);
-					}
-				}
+				name = scan.next();
+				library.selectBookInfo(name);
+
 				break;
 			case 4:
 				System.out.print("책이름 : ");
-				 name = scan.next();
+				name = scan.next();
 
-				for (Book book : list) {
+				library.rentalBook(name);
 
-					
-					if (book.getName().equals(name) && book.isTf() == false) {
-						borrow="정상대여";
-						System.out.println(borrow);
-						book.setTf(true);
-
-					}
-
-					else if (book.getName().equals(name) && book.isTf() == true) {
-						borrow="대여 중";
-						System.out.println(borrow);
-						
-					}
-				}
 				break;
 			case 5:
 				System.out.print("책이름 : ");
-				 name = scan.next();
+				name = scan.next();
+				library.returnBook(name);
 
-				for (Book book : list) {
-					if (book.getName().equals(name) && book.isTf() == true) {
-						borrow="반납완료";
-						System.out.println(borrow);
-						book.setTf(false);
-						
-					}
-					else if (book.getName().equals(name) && book.isTf() == false) {
-						borrow="반납불가";
-						System.out.println(borrow);
-					
-					}
-
-				}
 				break;
 			case 6:
 				System.out.println("종료되었습니다.");
@@ -119,7 +69,5 @@ public class MainExample {
 			}
 		}
 	}
-
-	
 
 }

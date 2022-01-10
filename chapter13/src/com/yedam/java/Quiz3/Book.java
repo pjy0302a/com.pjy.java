@@ -1,16 +1,19 @@
 package com.yedam.java.Quiz3;
 
 public class Book {
+	
+	private static int serial;
+	
 	private String name;
 	private String author;
 	private boolean tf;
 	private int booknum;
-	private static int serial;
+	
 
 	public Book(String name, String author) {
 		this.name = name;
 		this.author = author;
-		this.tf = true;
+		this.tf = false;
 		serial++;
 		booknum = serial;
 
