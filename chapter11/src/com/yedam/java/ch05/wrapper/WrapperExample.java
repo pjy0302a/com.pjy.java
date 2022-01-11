@@ -24,6 +24,9 @@ public class WrapperExample {
 //		int result = obj.intValue() + 100;
 		int result = obj + 100;
  		System.out.println(result);
+ 		
+ 		//포장객체비교
+ 		System.out.println("[-128~127를 초과한 경우]");
 	}
 
 }
