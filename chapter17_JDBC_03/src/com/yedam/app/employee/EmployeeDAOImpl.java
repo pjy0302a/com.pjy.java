@@ -1,66 +1,22 @@
-package com.yedam.java.app;
+package com.yedam.app.employee;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.yedam.app.employee.Employee;
+import com.yedam.app.common.DAO;
 
-public class EmployeeDAO {
-	//sqlite 연결정보
-	String jdbc_driver= "org.sqlite.JDBC";
-	String jdbc_url = "jdbc:sqlite:/c:/DEV/workspace/YedamDataBase.db";
-	
-	//각 메소드에서 공통적으로 사용하는 필드
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	
+
+public class EmployeeDAOImpl extends DAO implements EmployeeDAO {
 	//싱글톤
-	private static EmployeeDAO instance = new EmployeeDAO();
-	private EmployeeDAO() {}
+	private static EmployeeDAO instance = new EmployeeDAOImpl();
+	private EmployeeDAOImpl() {}
 	public static EmployeeDAO getInstance() {
 		return instance;
 	}
 	
-	//JDBC Driver 로딩
-	//DB 서버 접속
-	// -> Connect() 메소드
-	public void connect() {
-		try {
-			Class.forName(jdbc_driver);
-			
-			conn = DriverManager.getConnection(jdbc_url);
-		} catch (ClassNotFoundException e) {
-			System.out.println("JDBC Driver 로딩 실패");
-		} catch (SQLException e) {
-			System.out.println("DB 접속 실패");
-		}
-	}
-	
-	//자원해제 -> disconnect() 메소드
-	public void disconnect() {
-		try {
-			if(rs != null) rs.close();
-			if(pstmt != null) rs.close();
-			if(conn != null) rs.close();
-		} catch (SQLException e) {
-			System.out.println("정상적으로 자원이 해제되지 않았습니다.");
-		}
-	}
-	
-	//PreparedStatement 객체 생성
-	//sql실행
-	//결과값 출력 or 연산
-	// -> 각 CRUD 메소드로 반복적으로 사용
-	
-	//전체조회
-	public List<Employee> selectAll(){
+	@Override
+	public List<Employee> selectAll() {
 		List<Employee> list = new ArrayList<Employee>();
 		try {
 			connect();
@@ -92,7 +48,8 @@ public class EmployeeDAO {
 		
 		return list;
 	}
-	//단건조회
+
+	@Override
 	public Employee selectOne(int employeeId) {
 		Employee emp = null;
 		try {
@@ -125,7 +82,8 @@ public class EmployeeDAO {
 		}
 		return emp;
 	}
-	//등록
+
+	@Override
 	public void insert(Employee emp) {
 		try {
 			connect();
@@ -154,7 +112,8 @@ public class EmployeeDAO {
 			disconnect();
 		}
 	}
-	//수정
+
+	@Override
 	public void update(Employee emp) {
 		try {
 			connect();
@@ -173,7 +132,8 @@ public class EmployeeDAO {
 			disconnect();
 		}
 	}
-	//삭제
+
+	@Override
 	public void delete(int employeeId) {
 		try {
 			connect();
@@ -191,6 +151,5 @@ public class EmployeeDAO {
 			disconnect();
 		}
 	}
-	
-	
+
 }

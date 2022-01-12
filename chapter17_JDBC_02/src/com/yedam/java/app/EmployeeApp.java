@@ -3,6 +3,8 @@ package com.yedam.java.app;
 import java.util.List;
 import java.util.Scanner;
 
+import com.yedam.app.employee.Employee;
+
 public class EmployeeApp {
 
 	public static void main(String[] args) {
