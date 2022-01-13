@@ -22,7 +22,7 @@ public class Emp13DAOImpl extends DAO implements Emp13DAO {
 			connect();
 			String select = "SELECT * FROM emp13 ORDER BY employee_id";
 			pstmt = conn.prepareStatement(select);
-			rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();	//명령어를 처리하고 그 결과값을 가져온다.
 			while(rs.next()) {
 				Emp13 emp = new Emp13();
 				emp.setEmployeeid(rs.getInt("employee_id"));
