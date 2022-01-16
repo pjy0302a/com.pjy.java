@@ -39,8 +39,8 @@ public class Movie {
 	}
 	@Override
 	public String toString() {
-		return "Movie [movieName=" + movieName + ", moviePrice=" + moviePrice + ", movieDate=" + movieDate
-				+ ", movieSeat=" + movieSeat + "]";
+		return "영화명 : " + movieName + ", 영화가격 : " + moviePrice + ", 개봉날짜 : " + movieDate
+				+ ", 좌석 : " + movieSeat + "";
 	}
 	
 }

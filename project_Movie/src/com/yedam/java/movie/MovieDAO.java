@@ -15,10 +15,17 @@ public interface MovieDAO {
 	public void movieDelete(String moviename);
 	
 	//좌석목록
-	public void movieSeat();
+	public void movieSeat(String moviename);
 	
 	//영화매출
-	public int movieSales();
+	public void movieSales(String movieName, int movieSales);
 	
+	//영화좌석
+	public List<Movieseat> SeatAll();
 	
+	public void seatInsert(String movieName, int seatnum);
+	
+	public void seatUpdate(String movieName,int seatNum, String loginId);
+	
+	public void seatdelete(String moviename);
 }

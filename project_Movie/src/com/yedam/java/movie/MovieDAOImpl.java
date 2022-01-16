@@ -11,11 +11,14 @@ import com.yedam.java.common.DAO;
 public class MovieDAOImpl extends DAO implements MovieDAO {
 	private static MovieDAOImpl instance = new MovieDAOImpl();
 	private Scanner scanner = new Scanner(System.in);
+
 	private MovieDAOImpl() {
-		 	}
+	}
+
 	public static MovieDAOImpl getInstance() {
 		return instance;
 	}
+
 	String time = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
 
 	@Override
@@ -26,27 +29,24 @@ public class MovieDAOImpl extends DAO implements MovieDAO {
 			String select = "SELECT * FROM MovieLogin";
 			pstmt = conn.prepareStatement(select);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				Login login = new Login();
 				login.setLoginId(rs.getString("loginid"));
 				login.setLoginPw(rs.getString("loginpw"));
 				login.setLoginName(rs.getString("loginid"));
 				login.setLoginAuthority(rs.getString("loginauthority"));
-				
+
 				list.add(login);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			disconnect();
 		}
-		
+
 		return list;
 	}
-		
-		
-		
 
 	@Override
 	public void loginCreate(Login login) {
@@ -59,7 +59,7 @@ public class MovieDAOImpl extends DAO implements MovieDAO {
 			pstmt.setString(3, login.getLoginName());
 			pstmt.setString(4, "user");
 			pstmt.executeUpdate();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,9 +77,9 @@ public class MovieDAOImpl extends DAO implements MovieDAO {
 			pstmt.setString(3, time);
 			pstmt.setInt(4, movie.getMovieSeat());
 			pstmt.executeUpdate();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			disconnect();
 		}
 	}
@@ -92,19 +92,22 @@ public class MovieDAOImpl extends DAO implements MovieDAO {
 			String select = ("SELECT * FROM MovieList");
 			pstmt = conn.prepareStatement(select);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				Movie movie = new Movie();
-				
-				
-				
-				
+				movie.setMovieName(rs.getString("movieName"));
+				movie.setMoviePrice(rs.getInt("moviePrice"));
+				movie.setMovieDate(rs.getString("movieDate"));
+				movie.setMovieSeat(rs.getInt("movieSeat"));
+				movie.setMovieSales(rs.getInt("movieSales"));
+
+				list.add(movie);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
 		}
-		return null;
+		return list;
 	}
 
 	@Override
@@ -115,21 +118,112 @@ public class MovieDAOImpl extends DAO implements MovieDAO {
 			pstmt = conn.prepareStatement(delete);
 			pstmt.setString(1, moviename);
 			pstmt.executeUpdate();
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			disconnect();
 		}
 	}
 
 	@Override
-	public void movieSeat() {
+	public void movieSeat(String moviename) {
+
+	}
+
+
+	@Override
+	public List<Movieseat> SeatAll() {
+		List<Movieseat> list = new ArrayList<Movieseat>();
+		try {
+			connect();
+			String select = ("SELECT * FROM MovieSeat");
+			pstmt = conn.prepareStatement(select);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Movieseat Movieseat = new Movieseat();
+				Movieseat.setMovieName(rs.getString("movieName"));
+				Movieseat.setMovieSeatNum(rs.getInt("movieSeatNum"));
+				Movieseat.setMovieLoginId(rs.getString("movieLoginId"));
+
+				list.add(Movieseat);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return list;
+
 	}
 
 	@Override
-	public int movieSales() {	//영화를 예매하면 price를 리턴받고 Sales필드값에 저장
-		return 0;
+	public void seatInsert(String movieName, int seatNum) {
+		try {
+			connect();
+			String insert = "INSERT INTO MovieSeat (MovieName,MovieSeatNum)VALUES (?,?)";
+			pstmt = conn.prepareStatement(insert);
+			pstmt.setString(1, movieName);
+			pstmt.setInt(2, seatNum);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
 	}
+
+	@Override
+	public void seatUpdate(String movieName,int seatNum, String loginId) {
+		try {
+			connect();
+			String update = "UPDATE MovieSeat SET MovieLoginId = ? WHERE MovieSeatNum = ? AND MovieName = ? ";
+			pstmt = conn.prepareStatement(update);
+			pstmt.setString(1, loginId);
+			pstmt.setInt(2, seatNum);
+			pstmt.setString(3, movieName);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+	
+	@Override
+	public void movieSales(String movieName, int movieSales) { // 영화를 예매하면 price를 리턴받고 Sales필드값에 저장
+		try {
+			connect();
+			String update = "UPDATE MovieList SET MovieSales = ? WHERE MovieName = ?";
+			pstmt = conn.prepareStatement(update);
+			pstmt.setInt(1, movieSales);
+			pstmt.setString(2, movieName);
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+	}
+	@Override
+	public void seatdelete(String moviename) {
+		try {
+			connect();
+			String delete = "DELETE FROM MovieSeat WHERE moviename = ?";
+			pstmt = conn.prepareStatement(delete);
+			pstmt.setString(1, moviename);
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+	
 
 }
