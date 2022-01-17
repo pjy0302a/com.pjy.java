@@ -224,6 +224,136 @@ public class MovieDAOImpl extends DAO implements MovieDAO {
 			disconnect();
 		}
 	}
-	
+	@Override
+	public List<Board> BoardAll(){
+		List<Board> list = new ArrayList<Board>();
+		try {
+			connect();
+			String select = ("SELECT * FROM Board");
+			pstmt = conn.prepareStatement(select);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Board board = new Board();
+				board.setSerialNum(rs.getInt("serialNum"));
+				board.setTitle(rs.getString("title"));
+				board.setContents(rs.getString("contents"));
+				board.setLoginId(rs.getString("loginId"));
+				board.setLoginAuthority(rs.getString("loginAuthority"));
+				board.setDate(rs.getString("date"));
+				list.add(board);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return list;
+		
+	}
+	@Override
+	public void boardInsert(String title,String contents,String loginId, String loginAuthority) {
+		try {
+			connect();
+			String insert = "INSERT INTO Board (title,contents,loginId,loginAuthority,date)VALUES (?,?,?,?,?)";
+			pstmt = conn.prepareStatement(insert);
+			//pstmt.setInt(1, 0);
+			pstmt.setString(1, title);
+			pstmt.setString(2, contents);
+			pstmt.setString(3, loginId);
+			pstmt.setString(4, loginAuthority);
+			pstmt.setString(5, time);
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
 
+	@Override
+	public void boardtitleUpdate(Board board, String title) {
+		try {
+			connect();
+			String update = "UPDATE Board SET title = ? WHERE title = ? AND contents = ?";
+			pstmt = conn.prepareStatement(update);
+			pstmt.setString(1, title);
+			pstmt.setString(2, board.getTitle());
+			pstmt.setString(3, board.getContents());
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+	@Override
+	public void boardtitleUpdateCheck(Board board, String title, String loginId) {
+		try {
+			connect();
+			String update = "UPDATE Board SET title = ? WHERE title = ? AND contents = ? AND login_id = ?";
+			pstmt = conn.prepareStatement(update);
+			pstmt.setString(1, title);
+			pstmt.setString(2, board.getTitle());
+			pstmt.setString(3, board.getContents());
+			pstmt.setString(4, board.getLoginId());
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+	@Override
+	public void boardcontentsUpdate(Board board, String Contents) {
+		try {
+			connect();
+			String update = "UPDATE Board SET contents = ? WHERE title = ? AND contents = ?";
+			pstmt = conn.prepareStatement(update);
+			pstmt.setString(1, Contents);
+			pstmt.setString(2, board.getTitle());
+			pstmt.setString(3, board.getContents());
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+	@Override
+	public void boardDelete(Board board) {
+		try {
+			connect();
+			String delete = "DELETE FROM Board WHERE title = ? AND contents = ?";
+			pstmt = conn.prepareStatement(delete);
+			pstmt.setString(1, board.getTitle());
+			pstmt.setString(2, board.getContents());
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+	@Override
+	public void boardSerialNum(int serialNum) {
+		try {
+			connect();
+			String insert = "INSERT INTO Board (serialNum) VALUES (?)";
+			pstmt = conn.prepareStatement(insert);
+			pstmt.setInt(1, serialNum);
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+	
 }

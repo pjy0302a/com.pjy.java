@@ -28,4 +28,17 @@ public interface MovieDAO {
 	public void seatUpdate(String movieName,int seatNum, String loginId);
 	
 	public void seatdelete(String moviename);
+	
+	public List<Board> BoardAll();
+	
+	public void boardInsert(String title,String contents,String loginId, String loginAuthority);
+	
+	public void boardtitleUpdate(Board board, String title);
+	public void boardcontentsUpdate(Board board, String contents);
+	public void boardtitleUpdateCheck(Board board, String title, String loginId);
+	public void boardDelete(Board board);
+	
+	public void boardSerialNum(int serialNum);
+
+	
 }
