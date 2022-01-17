@@ -13,107 +13,21 @@ import com.yedam.java.movie.Movieseat;
 public class MovieFrame {
 	private MovieDAO movieDAO = MovieDAOImpl.getInstance();
 	private Scanner scanner = new Scanner(System.in);
-	Login loginMain = new Login();
-	List<Login> list = movieDAO.loginAll();
-	// List<Movie> mlist = movieDAO.movieList();
-	List<Movieseat> slist = movieDAO.SeatAll();
-
+	String user = "user";
+	String admin = "admin";
+	Login login = new Login();
 	public MovieFrame() {
 
-		boolean run = true;
-		String user = "user";
-		String admin = "admin";
-
-		FIRSTMENU: while (run) {
+		while (true) {
 			// 메뉴출력
-			menuPrint();
-			int menuNo = Integer.parseInt(scanner.nextLine());
-
+			int menuNo = menuPrint();
 			// 각메뉴별 기능실행
 			if (menuNo == 1) {
-
-//				System.out.print("아이디 입력>");
-//				String id = scanner.nextLine();
-//				System.out.print("비밀번호 입력>");
-//				String pw = scanner.nextLine();
-				String id = loginInputId();
-				String pw = loginInputPw();
-
-				for (Login loginMain : list) {
-					if (id.equals(loginMain.getLoginId()) && pw.equals(loginMain.getLoginPw())) {
-						if (admin.equals(loginMain.getLoginAuthority())) {
-							while (run) {
-								adminPrint();
-								int adminNo = Integer.parseInt(scanner.nextLine());
-								if (adminNo == 1) {
-									// 상영관관리
-									while (run) {
-										MovieCheck();
-										int mNo = Integer.parseInt(scanner.nextLine());
-										if (mNo == 1) {
-											// 영화추가
-											movieInsert();
-
-										} else if (mNo == 2) {
-											// 영화제거
-											movieDelete();
-
-										} else if (mNo == 3) {
-											// 영화목록
-
-											MovieAll();
-
-										} else if (mNo == 4) {
-											// 영화매출
-											moviePrice();
-											movieAllSales();
-										} else if (mNo == 5) {
-
-											end();
-											continue FIRSTMENU;
-										}
-									}
-								} else if (adminNo == 2) {
-
-								} else if (adminNo == 3) {
-									end();
-									continue FIRSTMENU;
-								}
-							}
-
-						} else if (user.equals(loginMain.getLoginAuthority())) {
-							while (run) {
-								userPrint();
-								int userNo = Integer.parseInt(scanner.nextLine());
-								if (userNo == 1) {
-									MovieAll();
-									Reservation(loginMain.getLoginId());
-
-								} else if (userNo == 2) {
-									// 예매확인
-									CheckReservation(loginMain.getLoginId());
-								} else if (userNo == 3) {
-									// 게시판이동
-									boardMove(loginMain.getLoginId(), loginMain.getLoginAuthority());
-										//continue FIRSTMENU;
-								} else if (userNo == 4) {
-									end();
-									continue FIRSTMENU;
-								}
-							}
-						}
-					}
-//					System.out.println(login);
-				}
-
+				signIn();
 			} else if (menuNo == 2) {
-
-				int a = signUp();
-				if (a == 1) {
-					continue FIRSTMENU;
-				}
+				signUp();
 			} else if (menuNo == 3) {
-
+				noSignIn(login);
 			} else if (menuNo == 4) {
 				end();
 				break;
@@ -124,47 +38,58 @@ public class MovieFrame {
 		}
 	}
 
-	private void menuPrint() {
-		System.out.println("===============================");
+	private int menuPrint() {
+		System.out.println("===================================");
 		System.out.println("1.로그인 2.회원가입 3.비로그인 4.종료");
-		System.out.println("===============================");
+		System.out.println("===================================");
 		System.out.print("메뉴선택>");
+		int menuNo = Integer.parseInt(scanner.nextLine());
+		return menuNo;
 	}
 
 	private void adminPrint() {
-		System.out.println("===============================");
+		System.out.println("==============================");
 		System.out.println("1.상영관관리 2.게시판관리 3.종료 ");
-		System.out.println("===============================");
+		System.out.println("==============================");
 		System.out.print("메뉴선택>");
 	}
 
 	private void userPrint() {
-		System.out.println("=================================");
+		System.out.println("=======================================");
 		System.out.println("1.영화목록 2.예매확인 3.게시판이동 4.종료 ");
-		System.out.println("=================================");
+		System.out.println("=======================================");
 		System.out.print("메뉴선택>");
 	}
 
 	private void MovieCheck() {
-		System.out.println("======================================");
+		System.out.println("===============================================");
 		System.out.println("1.영화추가 2.영화제거 3.영화목록 4.영화매출 5.종료 ");
-		System.out.println("======================================");
+		System.out.println("===============================================");
 		System.out.print("메뉴선택>");
 	}
 
 	private void BoardPrint() {
-		System.out.println("===============================================");
+		System.out.println("========================================================");
 		System.out.println("1.게시판조회 2.게시판입력 3.게시판수정 4.게시판 삭제 5.종료 ");
-		System.out.println("===============================================");
+		System.out.println("========================================================");
+		System.out.print("메뉴선택>");
+	}
+
+	private void noUserPrint() {
+		System.out.println("==============================");
+		System.out.println("1.영화목록 2.게시판 3.종료 ");
+		System.out.println("==============================");
 		System.out.print("메뉴선택>");
 	}
 
 	private void BoardSelect() {
 		System.out.println("1.검색 2.종료");
 	}
+
 	private void BoardUpdatePrint() {
 		System.out.println("1.제목수정 2.내용수정 3.뒤로가기");
 	}
+
 	private void end() {
 		System.out.println("종료되었습니다.");
 	}
@@ -190,7 +115,7 @@ public class MovieFrame {
 	}
 
 	private void seatChange(String moviename, int ticket, String loginId) {
-//		SeatOne(moviename,loginId);
+
 		List<Movieseat> slist = movieDAO.SeatAll();
 
 		if (ticket > 0) {
@@ -280,8 +205,47 @@ public class MovieFrame {
 		}
 	}
 
-	private int signUp() {
-		loginMain = new Login();
+	private void signIn() {
+		List<Login> list = movieDAO.loginAll();
+		String user = "user";
+		String admin = "admin";
+		System.out.print("아이디 입력>");
+		String id = scanner.nextLine();
+		System.out.print("비밀번호 입력>");
+		String pw = scanner.nextLine();
+
+		for (Login loginMain : list) {
+			if (id.equals(loginMain.getLoginId()) && pw.equals(loginMain.getLoginPw())) {
+				if (admin.equals(loginMain.getLoginAuthority())) {
+					while (true) {
+						adminPrint();
+						int adminNo = Integer.parseInt(scanner.nextLine());
+						if (adminNo == 1) {
+							// 상영관관리
+							theater();
+
+						} else if (adminNo == 2) {
+							// 게시판관리
+							boardMove(loginMain.getLoginId(), loginMain.getLoginAuthority());
+
+						} else if (adminNo == 3) {
+							break;
+
+						}
+					}
+
+				} else if (user.equals(loginMain.getLoginAuthority())) {
+					usercheck(loginMain.getLoginId(), loginMain.getLoginAuthority());
+
+				}
+			}
+
+		}
+	}
+
+	private void signUp() {
+		List<Login> list = movieDAO.loginAll();
+		Login loginMain = new Login();
 
 		System.out.print("아이디 입력>");
 		String id = scanner.nextLine();
@@ -293,15 +257,19 @@ public class MovieFrame {
 		for (Login logintf : list) {
 			if (id.equals(logintf.getLoginId())) {
 				System.out.println("이미있는 아이디입니다.");
-				return 1;
+				break;
 			}
-
+			if (id.equals(logintf.getLoginId()) && pw.equals(logintf.getLoginPw())) {
+				System.out.println("로그인 성공");
+			} else if (id.equals(logintf.getLoginId()) && pw.equals(logintf.getLoginPw()) == false) {
+				System.out.println("로그인 실패");
+			}
 		}
 		loginMain.setLoginId(id);
 		loginMain.setLoginPw(pw);
 		loginMain.setLoginName(name);
 		movieDAO.loginCreate(loginMain);
-		return 0;
+
 	}
 
 	private void Reservation(String loginId) {
@@ -311,25 +279,10 @@ public class MovieFrame {
 
 		System.out.print("예매할 티켓수>");
 		int ticket = Integer.parseInt(scanner.nextLine());
-		// String loginid = loginMain.getLoginId();
 
 		SeatOne(mname, loginId);
 
 		seatChange(mname, ticket, loginId);
-	}
-
-	public String loginInputId() {
-		System.out.print("아이디 입력>");
-		String id = scanner.nextLine();
-
-		return (id);
-	}
-
-	public String loginInputPw() {
-		System.out.print("비밀번호 입력>");
-		String pw = scanner.nextLine();
-
-		return (pw);
 	}
 
 	public void movieDelete() {
@@ -359,27 +312,26 @@ public class MovieFrame {
 
 		System.out.print("1.게시글 입력하기 2.종료>>>");
 		int choiceNo = Integer.parseInt(scanner.nextLine());
-		if(choiceNo == 1) {
-			Board board = new Board();
-			System.out.print("게시판이름>");
-			String title = scanner.nextLine();
-			board.setTitle(title);
-			
-			System.out.print("게시판내용>");
-			String contents = scanner.nextLine();
-			board.setContents(contents);
-			
-			board.setLoginId(loginId);
-			board.setLoginAuthority(loginAuthority);
-			List<Board> blist = movieDAO.BoardAll();
+		if (choiceNo == 1) {
+			if (loginAuthority==null) {
+				System.out.println("게시글 입력을 위해 로그인해주십시오.");
+			}else if(loginAuthority.equals("user") || loginAuthority.equals("admin")) {
+				Board board = new Board();
+				System.out.print("게시판이름>");
+				String title = scanner.nextLine();
+				board.setTitle(title);
 
-			movieDAO.boardInsert(title, contents, loginId, loginAuthority);
-		}
-		else {
-			System.out.println("종료");
-		}
-		
+				System.out.print("게시판내용>");
+				String contents = scanner.nextLine();
+				board.setContents(contents);
 
+				board.setLoginId(loginId);
+				board.setLoginAuthority(loginAuthority);
+				List<Board> blist = movieDAO.BoardAll();
+
+				movieDAO.boardInsert(title, contents, loginId, loginAuthority);
+			}
+		}
 	}
 
 	private void BoardSeletAll() {
@@ -395,8 +347,9 @@ public class MovieFrame {
 			System.out.println(board);
 
 		}
-		
+
 	}
+
 	private void BoardSelet() {
 		List<Board> blist = movieDAO.BoardAll();
 
@@ -407,11 +360,13 @@ public class MovieFrame {
 			num++;
 		}
 		for (Board board : blist) {
-			System.out.println("no."+board.getSerialNum()+" 제목: "+board.getTitle()+" 글쓴이 : "+board.getLoginId()+" 게시일 : " + board.getDate());
+			System.out.println("no." + board.getSerialNum() + " 제목: " + board.getTitle() + " 글쓴이 : "
+					+ board.getLoginId() + " 게시일 : " + board.getDate());
 
 		}
-		
+
 	}
+
 	private void BoardChoice() {
 		List<Board> blist = movieDAO.BoardAll();
 		int num = 1;
@@ -421,30 +376,26 @@ public class MovieFrame {
 		}
 		System.out.print("1.게시글보기 2.종료 >>>");
 		int choiceNo = Integer.parseInt(scanner.nextLine());
-		if(choiceNo == 1) {
+		if (choiceNo == 1) {
 			System.out.print("게시글 번호>");
 			int choice = Integer.parseInt(scanner.nextLine());
-			for(Board board : blist) {
-				
-				
-				if(choice == board.getSerialNum()) {
-					System.out.println("제목 :" + board.getTitle()
-										+ "\n내용 : " + board.getContents() 
-										+ "\n글쓴이 : " + board.getLoginId() 
-										+ "\n게시일 : " + board.getDate());
+			for (Board board : blist) {
+
+				if (choice == board.getSerialNum()) {
+					System.out.println("제목 :" + board.getTitle() + "\n내용 : " + board.getContents() + "\n글쓴이 : "
+							+ board.getLoginId() + "\n게시일 : " + board.getDate());
 				}
 			}
-		}
-		else {
+		} else {
 			System.out.println("종료");
 		}
 
-		
 	}
+
 	public void choiceMenu() {
-		
-		
+
 	}
+
 	private void BoradVoDelete() {
 		List<Board> blist = movieDAO.BoardAll();
 		int num = 1;
@@ -455,23 +406,23 @@ public class MovieFrame {
 
 		System.out.println("1.게시글삭제 2.종료 >>>");
 		int choiceNo = Integer.parseInt(scanner.nextLine());
-		if(choiceNo == 1) {
+		if (choiceNo == 1) {
 			System.out.print("번호 입력>");
 			int select = Integer.parseInt(scanner.nextLine());
 			Board board = null;
-			for(Board b : blist) {
-				
-				if(b.getSerialNum()==select) {
+			for (Board b : blist) {
+
+				if (b.getSerialNum() == select) {
 					board = b;
 					movieDAO.boardDelete(board);
 				}
 			}
-		}
-		else {
+		} else {
 			System.out.println("종료");
 		}
 
 	}
+
 	private void BoradVoDeleteCheck(String loginId, String loginAuthority) {
 		List<Board> blist = movieDAO.BoardAll();
 		int num = 1;
@@ -480,41 +431,40 @@ public class MovieFrame {
 			num++;
 		}
 
-		System.out.println("1.게시글삭제 2.종료 >>>");
+		System.out.print("1.게시글삭제 2.종료 >>>");
 		int choiceNo = Integer.parseInt(scanner.nextLine());
-		if(choiceNo == 1) {
+		if (choiceNo == 1) {
 			System.out.print("번호 입력>");
 			int select = Integer.parseInt(scanner.nextLine());
 			Board board = null;
-			for(Board b : blist) {
+			for (Board b : blist) {
 
-				if(b.getLoginAuthority().equals("user")) {
-					if((b.getSerialNum()==select) && (b.getLoginId().equals(loginId))) {
+				if (b.getLoginAuthority().equals("user")) {
+					if ((b.getSerialNum() == select) && (b.getLoginId().equals(loginId))) {
 						board = b;
 						movieDAO.boardDelete(board);
 					}
-				}else if(b.getLoginAuthority().equals("admin")){
-					if(b.getSerialNum()==select) {
+				} else if (b.getLoginAuthority().equals("admin")) {
+					if (b.getSerialNum() == select) {
 						board = b;
 						movieDAO.boardDelete(board);
-				}
-				
-				
+					}
+
 				}
 			}
-			if(board == null) {
+			if (board == null) {
 				System.out.println("삭제할수없습니다.");
 			}
-			}
-		else {
+		} else {
 			System.out.println("종료");
 		}
 
 	}
+
 	private void BoradVoUpdate() {
 		List<Board> blist = movieDAO.BoardAll();
 		int num = 1;
-		
+
 		for (Board number : blist) {
 			number.setSerialNum(num);
 			num++;
@@ -522,125 +472,103 @@ public class MovieFrame {
 
 		System.out.println("1.게시글수정 2.종료>>>");
 		int choiceNo = Integer.parseInt(scanner.nextLine());
-		if(choiceNo == 1) {
+		if (choiceNo == 1) {
 			System.out.print("수정할 게시판 입력>");
 			int select = Integer.parseInt(scanner.nextLine());
 			Board board = null;
-			for(Board b : blist) {
+			for (Board b : blist) {
 
-				if(b.getSerialNum()==select ) {
+				if (b.getSerialNum() == select) {
 					board = b;
 					BoardUpdatePrint();
 					int boardNo = Integer.parseInt(scanner.nextLine());
-					if(boardNo == 1) {
+					if (boardNo == 1) {
 						System.out.println("수정할 제목을 입력하세요");
 						String title = scanner.nextLine();
 						movieDAO.boardtitleUpdate(board, title);
-					}else if(boardNo == 2) {
-					System.out.println("수정할 내용을 입력하세요");
-					String contents = scanner.nextLine();
-					movieDAO.boardcontentsUpdate(board, contents);
-					}else if(boardNo == 3) {
+					} else if (boardNo == 2) {
+						System.out.println("수정할 내용을 입력하세요");
+						String contents = scanner.nextLine();
+						movieDAO.boardcontentsUpdate(board, contents);
+					} else if (boardNo == 3) {
 						break;
 					}
-				}else {
+				} else {
 					System.out.println("수정 할 수 없습니다.");
 				}
 			}
-		}
-		else {
+		} else {
 			System.out.println("종료");
-		
+
 		}
 	}
+
 	private void BoradVoUpdateCheck(String loginId, String loginAuthority) {
 		List<Board> blist = movieDAO.BoardAll();
 		int num = 1;
-		
+
 		for (Board number : blist) {
 			number.setSerialNum(num);
 			num++;
 		}
 
-		System.out.println("1.게시글수정 2.종료>>>");
+		System.out.print("1.게시글수정 2.종료>>>");
 		int choiceNo = Integer.parseInt(scanner.nextLine());
-		if(choiceNo == 1) {
+		if (choiceNo == 1) {
 			System.out.print("수정할 게시판 입력>");
 			int select = Integer.parseInt(scanner.nextLine());
 			Board board = null;
-			
-			for(Board b : blist) {
 
-				if(b.getLoginAuthority().equals("user")) {
-					if((b.getSerialNum()==select) && (b.getLoginId().equals(loginId))) {
-					
+			for (Board b : blist) {
+
+				if (b.getLoginAuthority().equals("user")) {
+					if ((b.getSerialNum() == select) && (b.getLoginId().equals(loginId))) {
+
+						board = b;
+						BoardUpdatePrint();
+						int boardNo = Integer.parseInt(scanner.nextLine());
+						if (boardNo == 1) {
+							System.out.println("수정할 제목을 입력하세요");
+							String title = scanner.nextLine();
+							movieDAO.boardtitleUpdate(board, title);
+						} else if (boardNo == 2) {
+							System.out.println("수정할 내용을 입력하세요");
+							String contents = scanner.nextLine();
+							movieDAO.boardcontentsUpdate(board, contents);
+						} else if (boardNo == 3) {
+							break;
+						}
+
+					}
+				} else if (b.getLoginAuthority().equals("admin")) {
 					board = b;
 					BoardUpdatePrint();
 					int boardNo = Integer.parseInt(scanner.nextLine());
-					if(boardNo == 1) {
+					if (boardNo == 1) {
 						System.out.println("수정할 제목을 입력하세요");
 						String title = scanner.nextLine();
 						movieDAO.boardtitleUpdate(board, title);
-					}else if(boardNo == 2) {
-					System.out.println("수정할 내용을 입력하세요");
-					String contents = scanner.nextLine();
-					movieDAO.boardcontentsUpdate(board, contents);
-					}else if(boardNo == 3) {
+					} else if (boardNo == 2) {
+						System.out.println("수정할 내용을 입력하세요");
+						String contents = scanner.nextLine();
+						movieDAO.boardcontentsUpdate(board, contents);
+					} else if (boardNo == 3) {
 						break;
 					}
-			
-					
+
+				} else {
+					System.out.println("종료");
 				}
-				}else if(b.getLoginAuthority().equals("admin")){
-					board = b;
-					BoardUpdatePrint();
-					int boardNo = Integer.parseInt(scanner.nextLine());
-					if(boardNo == 1) {
-						System.out.println("수정할 제목을 입력하세요");
-						String title = scanner.nextLine();
-						movieDAO.boardtitleUpdate(board, title);
-					}else if(boardNo == 2) {
-					System.out.println("수정할 내용을 입력하세요");
-					String contents = scanner.nextLine();
-					movieDAO.boardcontentsUpdate(board, contents);
-					}else if(boardNo == 3) {
-						break;
-					}
-			
-			
-		}
-		else {
-			System.out.println("종료");
-		}
 			}
-			if(board == null) {
+			if (board == null) {
 				System.out.println("수정할수없습니다.");
 			}
-			}
-		
 		}
-	public void checkUpdate(String loginId, String loginAuthority) {
-		if(loginAuthority.equals("admin")) {
-			BoardSeletAll();
-			BoradVoUpdate();
-		}else if(loginAuthority.equals("user")) {
-			BoardSeletAll();
-			BoradVoUpdateCheck(loginId,loginAuthority);
-		}
+
 	}
-	public void checkDelete(String loginId, String loginAuthority) {
-		if(loginAuthority.equals("admin")) {
-			BoardSeletAll();
-			BoradVoDelete();
-		}else if(loginAuthority.equals("user")) {
-			BoardSeletAll();
-			BoradVoDeleteCheck(loginId,loginAuthority);
-			
-			
-		}
-	}
+
 	public int boardMove(String loginId, String loginAuthority) {
-		
+
 		while (true) {
 			BoardPrint();
 			int boardNo = Integer.parseInt(scanner.nextLine());
@@ -663,13 +591,82 @@ public class MovieFrame {
 				// 4.게시판삭제
 				BoardSeletAll();
 				BoradVoDeleteCheck(loginId, loginAuthority);
-				
+
 			} else if (boardNo == 5) {
 //				end();
 				return 1;
-				
+
 				// continue FIRSTMENU;
 
+			}
+		}
+	}
+
+	public void theater() {
+		while (true) {
+			MovieCheck();
+			int mNo = Integer.parseInt(scanner.nextLine());
+			if (mNo == 1) {
+				// 영화추가
+				movieInsert();
+
+			} else if (mNo == 2) {
+				// 영화제거
+				movieDelete();
+
+			} else if (mNo == 3) {
+				// 영화목록
+
+				MovieAll();
+
+			} else if (mNo == 4) {
+				// 영화매출
+				moviePrice();
+				movieAllSales();
+			} else if (mNo == 5) {
+
+				end();
+				break;
+			}
+
+		}
+	}
+
+	public void noSignIn(Login login) {
+		List<Login> list = movieDAO.loginAll();
+		while (true) {
+			noUserPrint();
+			int mNo = Integer.parseInt(scanner.nextLine());
+			if (mNo == 1) {
+				// 영화목록
+				MovieAll();
+				
+			} else if (mNo == 2) {
+				// 게시판관리
+				boardMove(login.getLoginId(), login.getLoginAuthority());
+			} else if (mNo == 3) {
+				break;
+			} 
+		}
+	}
+
+	public void usercheck(String loginId, String loginAuthority) {
+		while (true) {
+			userPrint();
+			int userNo = Integer.parseInt(scanner.nextLine());
+			if (userNo == 1) {
+				MovieAll();
+
+				Reservation(loginId);
+			} else if (userNo == 2) {
+				// 예매확인
+				CheckReservation(loginId);
+			} else if (userNo == 3) {
+				// 게시판이동
+				boardMove(loginId, loginAuthority);
+
+			} else if (userNo == 4) {
+				break;
 			}
 		}
 	}
