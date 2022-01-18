@@ -339,6 +339,7 @@ public class MovieDAOImpl extends DAO implements MovieDAO {
 			disconnect();
 		}
 	}
+	
 	@Override
 	public void boardSerialNum(int serialNum) {
 		try {
@@ -355,5 +356,54 @@ public class MovieDAOImpl extends DAO implements MovieDAO {
 			disconnect();
 		}
 	}
+
+	@Override
+	public void loginEquals(String id,String pw, String name) {
+		Login login = new Login();
+		try {
+			connect();
+			String select = "SELECT * FROM movieLogin WHERE loginId = ?";
+			pstmt = conn.prepareStatement(select);
+			pstmt.setString(1,id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				System.out.println("중복된 아이디입니다.");
+			}else {
+				System.out.println("회원가입 완료");
+				login.setLoginId(id);
+				login.setLoginPw(pw);
+				login.setLoginName(name);
+				loginCreate(login);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+
+	@Override
+	public void loginSearch(String id, String pw) {
+		
+		try {
+			connect();
+			String select = "SELECT * FROM movieLogin WHERE loginId = ? AND loginPw = ?";
+			pstmt = conn.prepareStatement(select);
+			pstmt.setString(1,id);
+			pstmt.setString(2,pw);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				System.out.println("로그인 완료");
+			}else {
+				System.out.println("다시입력해주십시오.");
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+
 	
 }

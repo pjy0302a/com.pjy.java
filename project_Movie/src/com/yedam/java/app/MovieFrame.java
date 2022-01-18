@@ -165,17 +165,13 @@ public class MovieFrame {
 	private void CheckReservation(String loginId) {
 		List<Movie> mlist = movieDAO.movieList();
 		List<Movieseat> slist = movieDAO.SeatAll();
-		System.out.println(loginId);
+//		System.out.println(loginId);
 		for (int i = 0; i < mlist.size(); i++) {
-
 			String movieName = mlist.get(i).getMovieName();
-
 			for (int s = 0; s < slist.size(); s++) {
 				if (slist.get(s).getMovieLoginId() != null) {
-					if (slist.get(s).getMovieLoginId().equals(loginId)) {
-						System.out.println("영화명 >" + mlist.get(i).getMovieName() + "\n" + "예약좌석 > "
-								+ slist.get(s).getMovieSeatNum());
-
+					if (slist.get(s).getMovieLoginId().equals(loginId) && slist.get(s).getMovieName().equals(mlist.get(i).getMovieName())) {
+						System.out.println("영화명>" + mlist.get(i).getMovieName() + " | 예약좌석> "+ slist.get(s).getMovieSeatNum());
 					}
 				}
 			}
@@ -213,7 +209,7 @@ public class MovieFrame {
 		String id = scanner.nextLine();
 		System.out.print("비밀번호 입력>");
 		String pw = scanner.nextLine();
-
+		movieDAO.loginSearch(id,pw);
 		for (Login loginMain : list) {
 			if (id.equals(loginMain.getLoginId()) && pw.equals(loginMain.getLoginPw())) {
 				if (admin.equals(loginMain.getLoginAuthority())) {
@@ -244,45 +240,41 @@ public class MovieFrame {
 	}
 
 	private void signUp() {
-		List<Login> list = movieDAO.loginAll();
-		Login loginMain = new Login();
-
 		System.out.print("아이디 입력>");
 		String id = scanner.nextLine();
 		System.out.print("비밀번호 입력>");
 		String pw = scanner.nextLine();
-		System.out.print("이름 입력");
+		System.out.print("이름 입력>");
 		String name = scanner.nextLine();
+		movieDAO.loginEquals(id,pw,name);
 
-		for (Login logintf : list) {
-			if (id.equals(logintf.getLoginId())) {
-				System.out.println("이미있는 아이디입니다.");
-				break;
-			}
-			if (id.equals(logintf.getLoginId()) && pw.equals(logintf.getLoginPw())) {
-				System.out.println("로그인 성공");
-			} else if (id.equals(logintf.getLoginId()) && pw.equals(logintf.getLoginPw()) == false) {
-				System.out.println("로그인 실패");
-			}
 		}
-		loginMain.setLoginId(id);
-		loginMain.setLoginPw(pw);
-		loginMain.setLoginName(name);
-		movieDAO.loginCreate(loginMain);
+		
 
-	}
+
 
 	private void Reservation(String loginId) {
+		System.out.println("1.예매하기 2.나가기");
+		int menuNo = Integer.parseInt(scanner.nextLine());
+		while(true) {
+			if(menuNo == 1) {
+				System.out.print("예매 할 영화제목>");
+				String mname = scanner.nextLine();
+				SeatOne(mname, loginId);
+				System.out.print("예매할 티켓수>");
+				int ticket = Integer.parseInt(scanner.nextLine());
+				seatChange(mname, ticket, loginId);
+				break;
+			}else if(menuNo ==2){
+				break;
+			}
+			
+		}
+		
 
-		System.out.print("예매 할 영화제목>");
-		String mname = scanner.nextLine();
+		
 
-		System.out.print("예매할 티켓수>");
-		int ticket = Integer.parseInt(scanner.nextLine());
-
-		SeatOne(mname, loginId);
-
-		seatChange(mname, ticket, loginId);
+		
 	}
 
 	public void movieDelete() {
@@ -352,11 +344,9 @@ public class MovieFrame {
 
 	private void BoardSelet() {
 		List<Board> blist = movieDAO.BoardAll();
-
 		int num = 1;
 		for (Board number : blist) {
 			number.setSerialNum(num);
-
 			num++;
 		}
 		for (Board board : blist) {
@@ -661,6 +651,7 @@ public class MovieFrame {
 			} else if (userNo == 2) {
 				// 예매확인
 				CheckReservation(loginId);
+				CancelReservation(loginId);
 			} else if (userNo == 3) {
 				// 게시판이동
 				boardMove(loginId, loginAuthority);
@@ -670,4 +661,33 @@ public class MovieFrame {
 			}
 		}
 	}
+
+	private void CancelReservation(String loginId) {
+		List<Movieseat> slist = movieDAO.SeatAll();
+		while (true) {
+			System.out.print("1.예매취소 2.종료 >>>>> ");
+			int userNo = Integer.parseInt(scanner.nextLine());
+			if (userNo == 1) {
+				System.out.print("취소할 영화제목>");
+				String moviename = scanner.nextLine(); 
+				System.out.print("취소할 좌석번호>");
+				int seat = Integer.parseInt(scanner.nextLine());
+				for(int i=0; i<slist.size(); i++) {
+					if(moviename.equals(slist.get(i).getMovieName()))
+					if(seat == slist.get(i).getMovieSeatNum()) {
+						if(loginId.equals(slist.get(i).getMovieLoginId())){
+//							slist.get(i).setMovieLoginId(null);
+							movieDAO.seatUpdate(moviename,seat,null);
+						}
+					}
+				}
+				
+			} else if (userNo == 2) {
+				break;
+			
+		}
+
+	}
+	}
+
 }

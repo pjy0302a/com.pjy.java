@@ -7,11 +7,14 @@ public interface MovieDAO {
 	public List<Login> loginAll();
 	//회원가입
 	public void loginCreate(Login login);
+	
+	public void loginEquals(String id,String pw, String name);
+	public void loginSearch(String id,String pw);
 	//영화등록
 	public void movieInsert(Movie movie);
 	//영화목록	
-	public List<Movie> movieList();
 	//영화삭제
+	public List<Movie> movieList();
 	public void movieDelete(String moviename);
 	
 	//좌석목록

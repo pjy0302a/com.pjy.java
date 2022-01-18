@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class DAO {
 	//DB연결정보
 			private String jdbc_driver = "org.sqlite.JDBC";
-			private String jdbc_url = "jdbc:sqlite:/C:/JAVA/MovieDataBase.db";
+			private String jdbc_url = "jdbc:sqlite:/C:/DEV/Workspace/MovieDataBase.db";
 			
 			//각 메서드에서 공통으로 사용하는 필드
 			protected Connection conn = null;
